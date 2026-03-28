@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DealMix — קניות חכמות מ-Amazon ו-TEMU</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Noto+Sans+Hebrew:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a0a;--white:#ffffff;--orange:#FF6B35;--amber:#FF9900;--surface:#141414;--border:rgba(255,255,255,0.08);--muted:#888}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans Hebrew','Sora',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden}
+nav{position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--white);text-decoration:none;cursor:pointer}
+.nav-logo span{color:var(--orange)}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-link{padding:8px 16px;border-radius:100px;font-size:14px;color:var(--muted);cursor:pointer;transition:color .2s}
+.nav-link:hover{color:var(--white)}
+.nav-btn{padding:8px 20px;border-radius:100px;background:var(--orange);color:#fff;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:opacity .2s}
+.nav-btn:hover{opacity:.88}
+.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:100px;padding:6px 16px;font-size:13px;color:var(--muted);margin-bottom:28px}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+h1{font-family:'Sora',sans-serif;font-size:clamp(44px,9vw,88px);font-weight:700;line-height:1.05;letter-spacing:-2px;margin-bottom:20px}
+h1 span{color:var(--orange)}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:var(--muted);max-width:480px;line-height:1.7;margin-bottom:40px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:50px}
+.btn-primary{background:var(--orange);color:#fff;padding:13px 30px;border-radius:100px;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:transform .2s,opacity .2s}
+.btn-primary:hover{transform:scale(1.03);opacity:.92}
+.btn-sec{background:rgba(255,255,255,.07);color:#fff;border:1px solid var(--border);padding:13px 30px;border-radius:100px;font-size:15px;font-weight:500;cursor:pointer;transition:background .2s}
+.btn-sec:hover{background:rgba(255,255,255,.12)}
+.platforms{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.plat-pill{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:100px;border:1px solid var(--border);font-size:13px;font-weight:500;background:rgba(255,255,255,.03)}
+.plat-dot{width:9px;height:9px;border-radius:50%}
+.stats{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:50px 24px;display:flex;justify-content:center;gap:70px;flex-wrap:wrap;text-align:center}
+.stat-val{font-family:'Sora',sans-serif;font-size:44px;font-weight:700;color:var(--orange);letter-spacing:-2px}
+.stat-lbl{font-size:13px;color:var(--muted);margin-top:4px}
+.shop{padding:70px 24px;max-width:1200px;margin:0 auto}
+.section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.section-title{font-family:'Sora',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:8px}
+.section-sub{font-size:15px;color:var(--muted);margin-bottom:36px}
+.src-filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.src-pill{padding:7px 18px;border-radius:100px;border:1px solid var(--border);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;color:var(--muted);background:transparent}
+.src-pill.active{color:#fff}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.filter-pill{padding:7px 16px;border-radius:100px;border:1px solid var(--border);font-size:13px;color:var(--muted);cursor:pointer;transition:all .15s;background:transparent}
+.filter-pill:hover{border-color:rgba(255,255,255,.2);color:var(--white)}
+.filter-pill.active{background:var(--white);color:var(--black);border-color:var(--white);font-weight:500}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.product-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s}
+.product-card:hover{border-color:rgba(255,107,53,.4);transform:translateY(-4px)}
+.product-img{width:100%;aspect-ratio:1;background:#111;display:flex;align-items:center;justify-content:center;position:relative}
+.product-badge{position:absolute;top:10px;right:10px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:8px;color:#fff}
+.product-discount{position:absolute;top:10px;left:10px;font-size:10px;font-weight:600;padding:3px 7px;border-radius:7px;background:rgba(255,107,53,.15);color:var(--orange);border:1px solid rgba(255,107,53,.3)}
+.product-info{padding:14px}
+.product-name{font-size:13px;color:var(--white);line-height:1.4;margin-bottom:7px;height:36px;overflow:hidden}
+.product-rating{font-size:11px;color:var(--amber);margin-bottom:7px}
+.product-price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:10px}
+.product-price{font-size:17px;font-weight:600;color:var(--white)}
+.product-orig{font-size:11px;color:var(--muted);text-decoration:line-through}
+.product-cta{width:100%;padding:9px;border-radius:9px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .2s;color:#fff}
+.product-cta:hover{opacity:.85}
+.features{padding:80px 24px;max-width:1100px;margin:0 auto}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:50px}
+.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;transition:border-color .2s,transform .2s}
+.feat-card:hover{border-color:rgba(255,107,53,.3);transform:translateY(-3px)}
+.feat-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,107,53,.12);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px}
+.feat-title{font-size:16px;font-weight:600;margin-bottom:8px}
+.feat-desc{font-size:13px;color:var(--muted);line-height:1.7}
+.cta-section{padding:100px 24px;text-align:center;border-top:1px solid var(--border)}
+.cta-title{font-family:'Sora',sans-serif;font-size:clamp(30px,5vw,52px);font-weight:700;letter-spacing:-1.5px;margin-bottom:14px}
+.cta-sub{font-size:15px;color:var(--muted);margin-bottom:36px}
+footer{border-top:1px solid var(--border);padding:36px 24px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#1a1a1a;border:1px solid var(--border);border-radius:24px;width:100%;max-width:420px;overflow:hidden;position:relative}
+.modal-img{width:100%;aspect-ratio:1;background:#111;display:flex;align-items:center;justify-content:center}
+.modal-body{padding:20px}
+.modal-src{font-size:11px;font-weight:600;padding:3px 10px;border-radius:8px;color:#fff;display:inline-block;margin-bottom:10px}
+.modal-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.modal-price{font-size:26px;font-weight:700;color:var(--white)}
+.modal-orig{font-size:14px;color:var(--muted);text-decoration:line-through}
+.modal-disc{font-size:12px;background:rgba(255,107,53,.15);color:var(--orange);padding:2px 8px;border-radius:7px;border:1px solid rgba(255,107,53,.3)}
+.modal-name{font-size:15px;font-weight:500;line-height:1.4;margin-bottom:6px}
+.modal-rating{font-size:13px;color:var(--amber);margin-bottom:16px}
+.modal-close{position:absolute;top:14px;left:14px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:16px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Deal<span>Mix</span></div>
+  <div class="nav-links">
+    <span class="nav-link" onclick="showPage('home')">בית</span>
+    <span class="nav-link" onclick="showPage('shop')">חנות</span>
+    <button class="nav-btn" onclick="showPage('shop')">קנה עכשיו</button>
+  </div>
+</nav>
+
+<div id="page-home">
+  <section class="hero">
+    <div class="badge"><div class="badge-dot"></div>Amazon ו-TEMU במקום אחד</div>
+    <h1>Deal<span>Mix</span></h1>
+    <p class="hero-sub">מצא את המחירים הכי טובים מ-Amazon ו-TEMU — בלי לקפוץ בין אתרים. חכם, מהיר, משתלם.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showPage('shop')">לחנות ←</button>
+      <button class="btn-sec" onclick="document.getElementById('feats').scrollIntoView({behavior:'smooth'})">גלה עוד</button>
+    </div>
+    <div class="platforms">
+      <div class="plat-pill"><div class="plat-dot" style="background:#FF9900"></div>Amazon</div>
+      <div class="plat-pill"><div class="plat-dot" style="background:#FF6B35"></div>TEMU</div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div><div class="stat-val">2</div><div class="stat-lbl">פלטפורמות קניות</div></div>
+    <div><div class="stat-val">20%</div><div class="stat-lbl">חיסכון מקסימלי</div></div>
+    <div><div class="stat-val">∞</div><div class="stat-lbl">מוצרים זמינים</div></div>
+  </div>
+
+  <section class="features" id="feats">
+    <div class="section-label">למה DealMix</div>
+    <div class="section-title">כל מה שצריך<br>במקום אחד</div>
+    <div class="features-grid">
+      <div class="feat-card"><div class="feat-icon">🔍</div><div class="feat-title">חיפוש משולב</div><div class="feat-desc">השווה מוצרים מ-Amazon ו-TEMU בו זמנית ותמצא תמיד את המחיר הטוב ביותר.</div></div>
+      <div class="feat-card"><div class="feat-icon">💰</div><div class="feat-title">מחירים הכי טובים</div><div class="feat-desc">אנחנו מציגים את ההנחות הכי גדולות משתי הפלטפורמות הגדולות בעולם.</div></div>
+      <div class="feat-card"><div class="feat-icon">🔒</div><div class="feat-title">קנייה בטוחה</div><div class="feat-desc">כל רכישה מתבצעת ישירות ב-Amazon או TEMU — בצורה מאובטחת לחלוטין.</div></div>
+      <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">מהיר וקל</div><div class="feat-desc">מצא, השווה, וקנה בשלוש לחיצות. פחות זמן, יותר חיסכון.</div></div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-title">מוכן לחסוך?</div>
+    <div class="cta-sub">אלפי מוצרים במחירים הכי טובים</div>
+    <button class="btn-primary" onclick="showPage('shop')">לחנות עכשיו ←</button>
+  </section>
+</div>
+
+<div id="page-shop" style="display:none">
+  <div class="shop">
+    <div class="section-label">החנות שלנו</div>
+    <div class="section-title">מוצרים מובילים</div>
+    <div class="section-sub">מחירים עדכניים מ-Amazon ו-TEMU</div>
+    <div class="src-filters">
+      <span class="src-pill active" id="sf-all" onclick="setSrc('all')">הכל</span>
+      <span class="src-pill" id="sf-amazon" onclick="setSrc('amazon')">Amazon</span>
+      <span class="src-pill" id="sf-temu" onclick="setSrc('temu')">TEMU</span>
+    </div>
+    <div class="filters">
+      <span class="filter-pill active" onclick="setCat(this,'הכל')">הכל</span>
+      <span class="filter-pill" onclick="setCat(this,'אלקטרוניקה')">אלקטרוניקה</span>
+      <span class="filter-pill" onclick="setCat(this,'אופנה')">אופנה</span>
+      <span class="filter-pill" onclick="setCat(this,'בית')">בית</span>
+      <span class="filter-pill" onclick="setCat(this,'יופי')">יופי</span>
+      <span class="filter-pill" onclick="setCat(this,'ספורט')">ספורט</span>
+    </div>
+    <div class="products-grid" id="products-grid"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="if(event.target.id==='modal')closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-img"><span id="m-emoji" style="font-size:80px">🎧</span></div>
+    <div class="modal-body">
+      <span class="modal-src" id="m-src">Amazon</span>
+      <div class="modal-price-row">
+        <span class="modal-price" id="m-price">₪849</span>
+        <span class="modal-orig" id="m-orig"></span>
+        <span class="modal-disc" id="m-disc"></span>
+      </div>
+      <div class="modal-name" id="m-name"></div>
+      <div class="modal-rating" id="m-rating"></div>
+      <a id="m-link" href="#" target="_blank" rel="noopener" style="display:block;width:100%;padding:13px;border-radius:12px;text-align:center;font-size:14px;font-weight:600;color:#fff;text-decoration:none">קנה עכשיו ←</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p style="font-family:'Sora',sans-serif;font-size:16px;font-weight:600;color:#fff;margin-bottom:8px">Deal<span style="color:var(--orange)">Mix</span></p>
+  <p>© 2026 DealMix · כל הזכויות שמורות</p>
+  <p style="margin-top:6px;font-size:12px">DealMix הוא אתר שותפים. רכישות מתבצעות ישירות ב-Amazon ו-TEMU.</p>
+</footer>
+
+<script>
+const AMAZON_TAG='dealmix03-20';
+const TEMU_ID='eozsrk2bn7a';
+
+const PRODUCTS=[
+  {id:'B08N5WRWNW',emoji:'🎧',name:'אוזניות Sony WH-1000XM4',price:849,orig:1399,src:'amazon',cat:'אלקטרוניקה',rating:4.7,reviews:52841},
+  {id:'B09G9HD6PD',emoji:'🎵',name:'Apple AirPods Pro דור 2',price:699,orig:899,src:'amazon',cat:'אלקטרוניקה',rating:4.8,reviews:89234},
+  {id:'B0BDHX8Z63',emoji:'⌚',name:'Apple Watch Series 9 41mm',price:1149,orig:1499,src:'amazon',cat:'אלקטרוניקה',rating:4.6,reviews:34100},
+  {id:'B07XJ8C8F5',emoji:'💡',name:'נורות LED חכמות Philips Hue',price:189,orig:289,src:'amazon',cat:'בית',rating:4.5,reviews:12033},
+  {id:'B08L5TNJHG',emoji:'🖱️',name:'עכבר Logitech MX Master 3',price:299,orig:399,src:'amazon',cat:'אלקטרוניקה',rating:4.7,reviews:28400},
+  {id:'B0932QJ2ZH',emoji:'📚',name:'Kindle Paperwhite 16GB',price:449,orig:599,src:'amazon',cat:'אלקטרוניקה',rating:4.7,reviews:67200},
+  {id:'t1',emoji:'👗',name:'חולצת קיץ פרחונית בוהו שיק',price:39,orig:89,src:'temu',cat:'אופנה',rating:4.5,reviews:2841},
+  {id:'t2',emoji:'👟',name:'נעלי ספורט קלות לריצה',price:89,orig:149,src:'temu',cat:'ספורט',rating:4.3,reviews:5200},
+  {id:'t3',emoji:'🛏️',name:'כרית זיכרון ארגונומית',price:45,orig:75,src:'temu',cat:'בית',rating:4.6,reviews:8900},
+  {id:'t4',emoji:'🧴',name:'קרם פנים SPF 50',price:22,orig:45,src:'temu',cat:'יופי',rating:4.4,reviews:3100},
+  {id:'t5',emoji:'🎒',name:'תיק גב עמיד למים 30L',price:65,orig:120,src:'temu',cat:'ספורט',rating:4.5,reviews:6700},
+  {id:'t6',emoji:'🏠',name:'מנורת שולחן LED + טעינה אלחוטית',price:78,orig:140,src:'temu',cat:'בית',rating:4.4,reviews:4200},
+];
+
+let activeSrc='all', activeCat='הכל';
+const SC={amazon:'#FF9900',temu:'#FF6B35'};
+
+function link(p){
+  return p.src==='amazon'
+    ?`https://www.amazon.com/dp/${p.id}?tag=${AMAZON_TAG}`
+    :`https://temu.to/k/${TEMU_ID}`;
+}
+function disc(p){return p.orig?Math.round((1-p.price/p.orig)*100):null}
+function stars(r){return'★'.repeat(Math.round(r))+'☆'.repeat(5-Math.round(r))}
+
+function renderProducts(){
+  const g=document.getElementById('products-grid');
+  const list=PRODUCTS.filter(p=>(activeSrc==='all'||p.src===activeSrc)&&(activeCat==='הכל'||p.cat===activeCat));
+  if(!list.length){g.innerHTML='<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">לא נמצאו מוצרים</p>';return;}
+  g.innerHTML=list.map(p=>{
+    const d=disc(p);
+    return`<div class="product-card" onclick="openModal('${p.id}')">
+      <div class="product-img">
+        <span style="font-size:54px">${p.emoji}</span>
+        <span class="product-badge" style="background:${SC[p.src]}">${p.src.toUpperCase()}</span>
+        ${d?`<span class="product-discount">-${d}%</span>`:''}
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-rating">${stars(p.rating)} ${p.rating} (${p.reviews.toLocaleString()})</div>
+        <div class="product-price-row">
+          <span class="product-price">₪${p.price}</span>
+          ${p.orig?`<span class="product-orig">₪${p.orig}</span>`:''}
+        </div>
+        <button class="product-cta" style="background:${SC[p.src]}" onclick="event.stopPropagation();window.open('${link(p)}','_blank')">קנה ב-${p.src.toUpperCase()} ←</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(id){
+  const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
+  const d=disc(p);
+  document.getElementById('m-emoji').textContent=p.emoji;
+  document.getElementById('m-src').textContent=p.src.toUpperCase();
+  document.getElementById('m-src').style.background=SC[p.src];
+  document.getElementById('m-price').textContent='₪'+p.price;
+  document.getElementById('m-orig').textContent=p.orig?'₪'+p.orig:'';
+  document.getElementById('m-disc').textContent=d?'-'+d+'%':'';
+  document.getElementById('m-disc').style.display=d?'inline':'none';
+  document.getElementById('m-name').textContent=p.name;
+  document.getElementById('m-rating').textContent=stars(p.rating)+' '+p.rating+' ('+p.reviews.toLocaleString()+' ביקורות)';
+  const ml=document.getElementById('m-link');
+  ml.href=link(p);ml.style.background=SC[p.src];
+  ml.textContent='קנה עכשיו ב-'+p.src.toUpperCase()+' ←';
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+
+function setSrc(src){
+  activeSrc=src;
+  document.querySelectorAll('.src-pill').forEach(el=>el.classList.remove('active'));
+  const el=document.getElementById('sf-'+src);
+  el.classList.add('active');
+  el.style.background=src==='amazon'?SC.amazon:src==='temu'?SC.temu:'var(--white)';
+  el.style.borderColor=src==='all'?'var(--white)':SC[src]||'var(--white)';
+  el.style.color=src==='all'?'var(--black)':'#fff';
+  renderProducts();
+}
+
+function setCat(el,cat){
+  activeCat=cat;
+  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
+}
+
+function showPage(page){
+  document.getElementById('page-home').style.display=page==='home'?'block':'none';
+  document.getElementById('page-shop').style.display=page==='shop'?'block':'none';
+  if(page==='shop')renderProducts();
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
